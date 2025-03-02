@@ -14,5 +14,13 @@
             "language": "javascript",
             "content": "// Kısa Yöntem\n$(function() {\n    // DOM hazır olduğunda çalışacak kodlar\n});\n\n// Uzun Yöntem\n$(document).ready(function() {\n    // DOM hazır olduğunda çalışacak kodlar\n});"
         }
+    },
+    "selectors": {
+        "title": "jQuery Selectors",
+        "description": "Element seçme yöntemleri",
+        "code": {
+            "language": "javascript",
+            "content": "// Element seçiciler\n$(\"p\")                // Tüm <p> elementleri\n$(\"#myId\")           // ID'si \"myId\" olan element\n$(\".myClass\")        // \"myClass\" sınıfına sahip elementler\n\n// Özel seçiciler\n$(\"p:first\")         // İlk <p> elementi\n$(\"p:last\")          // Son <p> elementi\n$(\"tr:even\")         // Çift indeksli <tr> elementleri\n$(\"tr:odd\")          // Tek indeksli <tr> elementleri\n$(\"p:contains('x')\") // İçinde 'x' metni geçen <p> elementleri\n\n// Attribute seçiciler\n$(\"[href]\")          // href attribute'u olan elementler\n$(\"[href='url']\")    // href'i \"url\" olan elementler\n$(\"[href$='.pdf']\")  // href'i .pdf ile biten elementler\n\n// Form seçiciler\n$(\":input\")          // Tüm input elementleri\n$(\":text\")           // type=\"text\" olan inputlar\n$(\":checkbox\")       // Checkboxlar\n$(\":checked\")        // Seçili olan radio/checkbox"
+        }
     }
 } 
