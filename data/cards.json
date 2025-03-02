@@ -1,0 +1,18 @@
+{
+    "setup": {
+        "title": "jQuery Setup",
+        "description": "jQuery kurulum yolları",
+        "code": {
+            "language": "html",
+            "content": "<!-- CDN ile jQuery Kurulumu -->\n<script src=\"https://code.jquery.com/jquery-3.7.1.min.js\"></script>\n\n<!-- NPM ile jQuery Kurulumu -->\nnpm install jquery\n\n<!-- Yerel Dosya ile jQuery Kurulumu -->\n<script src=\"js/jquery.min.js\"></script>"
+        }
+    },
+    "ready": {
+        "title": "Document Ready",
+        "description": "DOM yüklendikten sonra çalışacak kodları yazın",
+        "code": {
+            "language": "javascript",
+            "content": "// Kısa Yöntem\n$(function() {\n    // DOM hazır olduğunda çalışacak kodlar\n});\n\n// Uzun Yöntem\n$(document).ready(function() {\n    // DOM hazır olduğunda çalışacak kodlar\n});"
+        }
+    }
+} 
