@@ -30,5 +30,13 @@
             "language": "javascript",
             "content": "// Mouse Events\n$(\"#element\").click(function() {})      // Tıklama\n$(\"#element\").dblclick(function() {})   // Çift tıklama\n$(\"#element\").hover(function() {})      // Mouse üzerine gelme\n$(\"#element\").mouseenter(function() {}) // Mouse girişi\n$(\"#element\").mouseleave(function() {}) // Mouse çıkışı\n\n// Keyboard Events\n$(\"#element\").keydown(function() {})    // Tuşa basma\n$(\"#element\").keyup(function() {})      // Tuşu bırakma\n$(\"#element\").keypress(function() {})   // Karakter girişi\n\n// Form Events\n$(\"#element\").submit(function() {})     // Form gönderimi\n$(\"#element\").change(function() {})     // Değer değişimi\n$(\"#element\").focus(function() {})      // Odaklanma\n$(\"#element\").blur(function() {})       // Odak kaybı\n\n// Document/Window Events\n$(document).ready(function() {})        // DOM hazır\n$(window).resize(function() {})         // Pencere boyutu\n$(window).scroll(function() {})         // Sayfa kaydırma"
         }
+    },
+    "xml": {
+        "title": "jQuery XML",
+        "description": "XML verilerini jQuery ile işleme",
+        "code": {
+            "language": "javascript",
+            "content": "// XML verilerini parse etme\nconst xmlDoc = $.parseXML(xmlString);\nconst $xml = $(xmlDoc);\n\n// XML elementlerini seçme\n$xml.find('ogrenci').each(function() {\n    const ad = $(this).find('ad').text();\n    const not = $(this).find('not').text();\n    console.log(`Öğrenci: ${ad}, Not: ${not}`);\n});"
+        }
     }
 } 
