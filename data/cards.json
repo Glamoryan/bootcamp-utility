@@ -22,5 +22,13 @@
             "language": "javascript",
             "content": "// Element seçiciler\n$(\"p\")                // Tüm <p> elementleri\n$(\"#myId\")           // ID'si \"myId\" olan element\n$(\".myClass\")        // \"myClass\" sınıfına sahip elementler\n\n// Özel seçiciler\n$(\"p:first\")         // İlk <p> elementi\n$(\"p:last\")          // Son <p> elementi\n$(\"tr:even\")         // Çift indeksli <tr> elementleri\n$(\"tr:odd\")          // Tek indeksli <tr> elementleri\n$(\"p:contains('x')\") // İçinde 'x' metni geçen <p> elementleri\n\n// Attribute seçiciler\n$(\"[href]\")          // href attribute'u olan elementler\n$(\"[href='url']\")    // href'i \"url\" olan elementler\n$(\"[href$='.pdf']\")  // href'i .pdf ile biten elementler\n\n// Form seçiciler\n$(\":input\")          // Tüm input elementleri\n$(\":text\")           // type=\"text\" olan inputlar\n$(\":checkbox\")       // Checkboxlar\n$(\":checked\")        // Seçili olan radio/checkbox"
         }
+    },
+    "events": {
+        "title": "jQuery Events",
+        "description": "Yaygın kullanılan jQuery olayları",
+        "code": {
+            "language": "javascript",
+            "content": "// Mouse Events\n$(\"#element\").click(function() {})      // Tıklama\n$(\"#element\").dblclick(function() {})   // Çift tıklama\n$(\"#element\").hover(function() {})      // Mouse üzerine gelme\n$(\"#element\").mouseenter(function() {}) // Mouse girişi\n$(\"#element\").mouseleave(function() {}) // Mouse çıkışı\n\n// Keyboard Events\n$(\"#element\").keydown(function() {})    // Tuşa basma\n$(\"#element\").keyup(function() {})      // Tuşu bırakma\n$(\"#element\").keypress(function() {})   // Karakter girişi\n\n// Form Events\n$(\"#element\").submit(function() {})     // Form gönderimi\n$(\"#element\").change(function() {})     // Değer değişimi\n$(\"#element\").focus(function() {})      // Odaklanma\n$(\"#element\").blur(function() {})       // Odak kaybı\n\n// Document/Window Events\n$(document).ready(function() {})        // DOM hazır\n$(window).resize(function() {})         // Pencere boyutu\n$(window).scroll(function() {})         // Sayfa kaydırma"
+        }
     }
 } 
