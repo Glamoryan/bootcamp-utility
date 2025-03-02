@@ -38,5 +38,13 @@
             "language": "javascript",
             "content": "// XML verilerini parse etme\nconst xmlDoc = $.parseXML(xmlString);\nconst $xml = $(xmlDoc);\n\n// XML elementlerini seçme\n$xml.find('ogrenci').each(function() {\n    const ad = $(this).find('ad').text();\n    const not = $(this).find('not').text();\n    console.log(`Öğrenci: ${ad}, Not: ${not}`);\n});"
         }
+    },
+    "json": {
+        "title": "jQuery JSON",
+        "description": "JSON verilerini jQuery ile işleme",
+        "code": {
+            "language": "javascript",
+            "content": "// JSON string'i parse etme\nconst jsonString = '{\"ad\":\"Ali\", \"not\":85}';\nconst obj = JSON.parse(jsonString);\nconsole.log(obj.ad); // Ali\n\n// JavaScript objesini JSON'a çevirme\nconst ogrenci = {\n    ad: \"Ayşe\",\n    not: 92,\n    dersler: [\"Matematik\", \"Fizik\"]\n};\nconst jsonData = JSON.stringify(ogrenci);"
+        }
     }
 } 
