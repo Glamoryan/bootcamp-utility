@@ -463,6 +463,144 @@
                     </div>
                 </div>
 
+                <!-- Soru 11 -->
+                <div class="quiz-item">
+                    <h3>Soru 11: JSON Parse ve Stringify</h3>
+                    <p>Verilen JSON string'i parse edip, yeni bir öğrenci ekleyerek tekrar JSON'a çeviren kodu yazın:</p>
+                    
+                    <div class="preview-container">
+                        <pre id="q11-input">{"ogrenciler":[{"ad":"Ali","not":85},{"ad":"Ayşe","not":92}]}</pre>
+                        <div id="q11-output"></div>
+                    </div>
+
+                    <div class="editor-container">
+                        <textarea id="q11-editor">$(document).ready(function() {
+    // JSON string'i parse et
+    const jsonStr = $("#q11-input").text();
+    const data = _____._____(jsonStr);
+    
+    // Yeni öğrenci ekle
+    data.ogrenciler._____({"ad": "Mehmet", "not": 78});
+    
+    // Tekrar JSON'a çevir
+    const yeniJson = _____._____(data, null, 2);
+    $("#q11-output").html(`<pre>${yeniJson}</pre>`);
+});</textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary run-code" data-question="11">Kodu Çalıştır</button>
+                        <button class="btn btn-secondary show-solution" data-question="11">Çözümü Göster</button>
+                    </div>
+
+                    <div class="solution" id="solution-11">
+                        <h4>Çözüm:</h4>
+                        <pre>$(document).ready(function() {
+    // JSON string'i parse et
+    const jsonStr = $("#q11-input").text();
+    const data = JSON.parse(jsonStr);
+    
+    // Yeni öğrenci ekle
+    data.ogrenciler.push({"ad": "Mehmet", "not": 78});
+    
+    // Tekrar JSON'a çevir
+    const yeniJson = JSON.stringify(data, null, 2);
+    $("#q11-output").html(`<pre>${yeniJson}</pre>`);
+});</pre>
+                    </div>
+                </div>
+
+                <!-- Soru 12 -->
+                <div class="quiz-item">
+                    <h3>Soru 12: XML Parse ve Seçiciler</h3>
+                    <p>Aşağıdaki XML verisini parse edip öğrenci notlarının ortalamasını hesaplayan kodu yazın:</p>
+                    
+                    <div class="preview-container">
+                        <div class="xml-example" style="background: #f5f5f5; padding: 15px; border-radius: 4px; margin-bottom: 15px;">
+                            <pre style="margin: 0;">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;sinif&gt;
+    &lt;ogrenci&gt;
+        &lt;ad&gt;Ali&lt;/ad&gt;
+        &lt;not&gt;85&lt;/not&gt;
+    &lt;/ogrenci&gt;
+    &lt;ogrenci&gt;
+        &lt;ad&gt;Ayşe&lt;/ad&gt;
+        &lt;not&gt;92&lt;/not&gt;
+    &lt;/ogrenci&gt;
+    &lt;ogrenci&gt;
+        &lt;ad&gt;Mehmet&lt;/ad&gt;
+        &lt;not&gt;78&lt;/not&gt;
+    &lt;/ogrenci&gt;
+&lt;/sinif&gt;</pre>
+                        </div>
+                        <div>
+                            <p>Öğrenci Notları:</p>
+                            <ul id="q12-list"></ul>
+                            <p>Ortalama: <span id="q12-average">-</span></p>
+                        </div>
+                    </div>
+
+                    <div class="editor-container">
+                        <textarea id="q12-editor">$(document).ready(function() {
+    // XML string'i al ve parse et
+    const xmlStr = $(".xml-example pre").text();
+    const xmlDoc = $._____(xmlStr);
+    const $xml = _____(xmlDoc);
+    
+    let toplam = 0;
+    let sayac = 0;
+    
+    // XML'i dolaş ve notları topla
+    $xml.find("_____").each(function() {
+        const $ogrenci = $(this);
+        const ad = $ogrenci.find("_____").text();
+        const not = parseInt($ogrenci.find("_____").text());
+        
+        $("#q12-list").append(`<li>${ad}: ${not}</li>`);
+        toplam += not;
+        sayac++;
+    });
+    
+    // Ortalamayı hesapla ve göster
+    const ortalama = toplam / sayac;
+    $("#q12-average").text(ortalama.toFixed(2));
+});</textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary run-code" data-question="12">Kodu Çalıştır</button>
+                        <button class="btn btn-secondary show-solution" data-question="12">Çözümü Göster</button>
+                    </div>
+
+                    <div class="solution" id="solution-12">
+                        <h4>Çözüm:</h4>
+                        <pre>$(document).ready(function() {
+    // XML string'i al ve parse et
+    const xmlStr = $(".xml-example pre").text();
+    const xmlDoc = $.parseXML(xmlStr);
+    const $xml = $(xmlDoc);
+    
+    let toplam = 0;
+    let sayac = 0;
+    
+    // XML'i dolaş ve notları topla
+    $xml.find("ogrenci").each(function() {
+        const $ogrenci = $(this);
+        const ad = $ogrenci.find("ad").text();
+        const not = parseInt($ogrenci.find("not").text());
+        
+        $("#q12-list").append(`<li>${ad}: ${not}</li>`);
+        toplam += not;
+        sayac++;
+    });
+    
+    // Ortalamayı hesapla ve göster
+    const ortalama = toplam / sayac;
+    $("#q12-average").text(ortalama.toFixed(2));
+});</pre>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -505,9 +643,13 @@
                     $(`.q${questionId}-box`).off();
                     $(".preview-container").off();
                     
-                    // Stil sıfırlama
-                    if(questionId === "9") {
-                        $(".q9-box").css("background-color", "#ddd");
+                    // Önceki içeriği temizle
+                    if(questionId === "11") {
+                        $("#q11-output").empty();
+                    }
+                    if(questionId === "12") {
+                        $("#q12-list").empty();
+                        $("#q12-average").text("-");
                     }
                     
                     // Kodu çalıştır
