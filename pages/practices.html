@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Practices</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../assets/css/practices.css">
+</head>
+<body>
+    <div class="page">
+        <h1>jQuery Practices</h1>
+        
+        <div class="practice-section">
+            <h2>jQuery Basics Quiz</h2>
+            <p>Aşağıdaki soruları cevaplayarak jQuery bilginizi test edin.</p>
+            
+            <div class="quiz-container">
+                <!-- Soru 1 -->
+                <div class="quiz-item">
+                    <h3>Soru 1: Click Event</h3>
+                    <p>Aşağıdaki butona tıklandığında, butonun metnini "Tıklandı!" olarak değiştiren kodu yazın:</p>
+                    
+                    <div class="preview-container">
+                        <button id="q1-button">Bana Tıkla</button>
+                    </div>
+
+                    <div class="editor-container">
+                        <textarea id="q1-editor">$(document).ready(function() {
+    $("#q1-button")._____(function() {
+        $(this)._____("Tıklandı!");
+    });
+});</textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary run-code" data-question="1">Kodu Çalıştır</button>
+                        <button class="btn btn-secondary show-solution" data-question="1">Çözümü Göster</button>
+                    </div>
+
+                    <div class="solution" id="solution-1">
+                        <h4>Çözüm:</h4>
+                        <pre>$(document).ready(function() {
+    $("#q1-button").click(function() {
+        $(this).text("Tıklandı!");
+    });
+});</pre>
+                    </div>
+                </div>
+
+                <!-- Soru 2 -->
+                <div class="quiz-item">
+                    <h3>Soru 2: Hover Effect</h3>
+                    <p>Mouse kutuya geldiğinde arka plan rengini mavi, ayrıldığında beyaz yapan kodu yazın:</p>
+                    
+                    <div class="preview-container">
+                        <div id="q2-box" style="width: 200px; height: 100px; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center;">
+                            Kutunun üzerine gel
+                        </div>
+                    </div>
+
+                    <div class="editor-container">
+                        <textarea id="q2-editor">$(document).ready(function() {
+    $("#q2-box")
+        ._____(function() {
+            $(this).css("background-color", "_____");
+        })
+        ._____(function() {
+            $(this).css("background-color", "_____");
+        });
+});</textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary run-code" data-question="2">Kodu Çalıştır</button>
+                        <button class="btn btn-secondary show-solution" data-question="2">Çözümü Göster</button>
+                    </div>
+
+                    <div class="solution" id="solution-2">
+                        <h4>Çözüm:</h4>
+                        <pre>$(document).ready(function() {
+    $("#q2-box")
+        .mouseenter(function() {
+            $(this).css("background-color", "#2196F3");
+        })
+        .mouseleave(function() {
+            $(this).css("background-color", "white");
+        });
+});</pre>
+                    </div>
+                </div>
+
+                <!-- Soru 3 -->
+                <div class="quiz-item">
+                    <h3>Soru 3: Form Validation</h3>
+                    <p>Input alanına en az 5 karakter girildiğinde "Geçerli", girilmediğinde "Çok Kısa!" mesajını gösteren kodu yazın:</p>
+                    
+                    <div class="preview-container">
+                        <input type="text" id="q3-input" placeholder="Metin girin...">
+                        <p id="q3-message"></p>
+                    </div>
+
+                    <div class="editor-container">
+                        <textarea id="q3-editor">$(document).ready(function() {
+    $("#q3-input")._____(function() {
+        if($(this).val().length _____ 5) {
+            $("#q3-message")
+                .text("_____")
+                .css("color", "#4CAF50");
+        } else {
+            $("#q3-message")
+                .text("_____")
+                .css("color", "#f44336");
+        }
+    });
+});</textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary run-code" data-question="3">Kodu Çalıştır</button>
+                        <button class="btn btn-secondary show-solution" data-question="3">Çözümü Göster</button>
+                    </div>
+
+                    <div class="solution" id="solution-3">
+                        <h4>Çözüm:</h4>
+                        <pre>$(document).ready(function() {
+    $("#q3-input").keyup(function() {
+        if($(this).val().length >= 5) {
+            $("#q3-message")
+                .text("Geçerli")
+                .css("color", "#4CAF50");
+        } else {
+            $("#q3-message")
+                .text("Çok Kısa!")
+                .css("color", "#f44336");
+        }
+    });
+});</pre>
+                    </div>
+                </div>
+
+                <!-- Soru 4 -->
+                <div class="quiz-item">
+                    <h3>Soru 4: Element Ekleme/Silme</h3>
+                    <p>Liste öğesi ekleyen ve en son eklenen öğeyi silen kodları yazın:</p>
+                    
+                    <div class="preview-container">
+                        <ul id="q4-list">
+                            <li>Örnek öğe 1</li>
+                        </ul>
+                        <div class="btn-group mb-3">
+                            <button id="q4-add">Öğe Ekle</button>
+                            <button id="q4-remove">Son Öğeyi Sil</button>
+                        </div>
+                    </div>
+
+                    <div class="editor-container">
+                        <textarea id="q4-editor">$(document).ready(function() {
+    $("#q4-add").click(function() {
+        const yeniOge = $("<li>").text("Yeni öğe " + ($("#q4-list li").length + 1));
+        $("#q4-list")._____(yeniOge);
+    });
+    
+    $("#q4-remove").click(function() {
+        $("#q4-list li")._____.remove();
+    });
+});</textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary run-code" data-question="4">Kodu Çalıştır</button>
+                        <button class="btn btn-secondary show-solution" data-question="4">Çözümü Göster</button>
+                    </div>
+
+                    <div class="solution" id="solution-4">
+                        <h4>Çözüm:</h4>
+                        <pre>$(document).ready(function() {
+    $("#q4-add").click(function() {
+        const yeniOge = $("<li>").text("Yeni öğe " + ($("#q4-list li").length + 1));
+        $("#q4-list").append(yeniOge);
+    });
+    
+    $("#q4-remove").click(function() {
+        $("#q4-list li").last().remove();
+    });
+});</pre>
+                    </div>
+                </div>
+
+                <!-- Soru 5 -->
+                <div class="quiz-item">
+                    <h3>Soru 5: Class Manipülasyonu</h3>
+                    <p>Butonlara tıklandığında kutunun class'larını değiştiren kodları yazın:</p>
+                    
+                    <div class="preview-container">
+                        <style>
+                            .highlight { background: #ffeb3b !important; }
+                            .rounded { border-radius: 50%; }
+                            .scaled { transform: scale(1.2); }
+                        </style>
+                        <div id="q5-box" style="width: 100px; height: 100px; background: #2196F3; transition: all 0.3s;"></div>
+                        <div class="btn-group mt-3">
+                            <button id="q5-toggle">Toggle Highlight</button>
+                            <button id="q5-add">Add Rounded</button>
+                            <button id="q5-remove">Remove Scaled</button>
+                        </div>
+                    </div>
+
+                    <div class="editor-container">
+                        <textarea id="q5-editor">$(document).ready(function() {
+    $("#q5-toggle").click(function() {
+        $("#q5-box")._____("highlight");
+    });
+    
+    $("#q5-add").click(function() {
+        $("#q5-box")._____("rounded");
+    });
+    
+    $("#q5-remove").click(function() {
+        $("#q5-box")._____("scaled");
+    });
+
+    // Test için scaled class'ını ekleyelim
+    $("#q5-box").addClass("scaled");
+});</textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary run-code" data-question="5">Kodu Çalıştır</button>
+                        <button class="btn btn-secondary show-solution" data-question="5">Çözümü Göster</button>
+                    </div>
+
+                    <div class="solution" id="solution-5">
+                        <h4>Çözüm:</h4>
+                        <pre>$(document).ready(function() {
+    $("#q5-toggle").click(function() {
+        $("#q5-box").toggleClass("highlight");
+    });
+    
+    $("#q5-add").click(function() {
+        $("#q5-box").addClass("rounded");
+    });
+    
+    $("#q5-remove").click(function() {
+        $("#q5-box").removeClass("scaled");
+    });
+
+    // Test için scaled class'ını ekleyelim
+    $("#q5-box").addClass("scaled");
+});</pre>
+                    </div>
+                </div>
+
+                <!-- Soru 6 -->
+                <div class="quiz-item">
+                    <h3>Soru 6: Input Değer Değişimi</h3>
+                    <p>Input alanına yazılan değeri anlık olarak başlığa yansıtan kodu yazın:</p>
+                    
+                    <div class="preview-container">
+                        <input type="text" id="q6-input" placeholder="Bir şeyler yazın...">
+                        <h4 id="q6-output">Buraya yazılacak</h4>
+                    </div>
+
+                    <div class="editor-container">
+                        <textarea id="q6-editor">$(document).ready(function() {
+    $("#q6-input")._____(function() {
+        $("#q6-output")._____($(this)._____());
+    });
+});</textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary run-code" data-question="6">Kodu Çalıştır</button>
+                        <button class="btn btn-secondary show-solution" data-question="6">Çözümü Göster</button>
+                    </div>
+
+                    <div class="solution" id="solution-6">
+                        <h4>Çözüm:</h4>
+                        <pre>$(document).ready(function() {
+    $("#q6-input").keyup(function() {
+        $("#q6-output").text($(this).val());
+    });
+});</pre>
+                    </div>
+                </div>
+
+                <!-- Soru 7 -->
+                <div class="quiz-item">
+                    <h3>Soru 7: Klavye Olayları</h3>
+                    <p>Input alanına sadece sayı girilmesine izin veren kodu yazın:</p>
+                    
+                    <div class="preview-container">
+                        <input type="text" id="q7-input" placeholder="Sadece sayı girin...">
+                        <p id="q7-message"></p>
+                    </div>
+
+                    <div class="editor-container">
+                        <textarea id="q7-editor">$(document).ready(function() {
+    $("#q7-input")._____(function(e) {
+        if(_____ >= 48 && _____ <= 57) {
+            $("#q7-message").text("").css("color", "black");
+        } else {
+            e.preventDefault();
+            $("#q7-message")
+                .text("Lütfen sadece sayı girin!")
+                .css("color", "red");
+        }
+    });
+});</textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary run-code" data-question="7">Kodu Çalıştır</button>
+                        <button class="btn btn-secondary show-solution" data-question="7">Çözümü Göster</button>
+                    </div>
+
+                    <div class="solution" id="solution-7">
+                        <h4>Çözüm:</h4>
+                        <pre>$(document).ready(function() {
+    $("#q7-input").keypress(function(e) {
+        if(e.which >= 48 && e.which <= 57) {
+            $("#q7-message").text("").css("color", "black");
+        } else {
+            e.preventDefault();
+            $("#q7-message")
+                .text("Lütfen sadece sayı girin!")
+                .css("color", "red");
+        }
+    });
+});</pre>
+                    </div>
+                </div>
+
+                <!-- Soru 8 -->
+                <div class="quiz-item">
+                    <h3>Soru 8: Checkbox Kontrolü</h3>
+                    <p>Checkbox'ın durumuna göre mesaj gösteren kodu yazın:</p>
+                    
+                    <div class="preview-container">
+                        <label>
+                            <input type="checkbox" id="q8-checkbox"> Onaylıyorum
+                        </label>
+                        <p id="q8-message"></p>
+                    </div>
+
+                    <div class="editor-container">
+                        <textarea id="q8-editor">$(document).ready(function() {
+    $("#q8-checkbox")._____(function() {
+        if($(this)._____()) {
+            $("#q8-message")
+                .text("Onaylandı!")
+                .css("color", "green");
+        } else {
+            $("#q8-message")
+                .text("Lütfen onaylayın")
+                .css("color", "red");
+        }
+    });
+});</textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary run-code" data-question="8">Kodu Çalıştır</button>
+                        <button class="btn btn-secondary show-solution" data-question="8">Çözümü Göster</button>
+                    </div>
+
+                    <div class="solution" id="solution-8">
+                        <h4>Çözüm:</h4>
+                        <pre>$(document).ready(function() {
+    $("#q8-checkbox").change(function() {
+        if($(this).is(":checked")) {
+            $("#q8-message")
+                .text("Onaylandı!")
+                .css("color", "green");
+        } else {
+            $("#q8-message")
+                .text("Lütfen onaylayın")
+                .css("color", "red");
+        }
+    });
+});</pre>
+                    </div>
+                </div>
+
+                <!-- Soru 9 -->
+                <div class="quiz-item">
+                    <h3>Soru 9: Çoklu Element Seçimi</h3>
+                    <p>Tüm kutulara tıklandığında rengini değiştiren kodu yazın:</p>
+                    
+                    <div class="preview-container">
+                        <div class="q9-box" style="width: 50px; height: 50px; background: #ddd; display: inline-block; margin: 5px; cursor: pointer;"></div>
+                        <div class="q9-box" style="width: 50px; height: 50px; background: #ddd; display: inline-block; margin: 5px; cursor: pointer;"></div>
+                        <div class="q9-box" style="width: 50px; height: 50px; background: #ddd; display: inline-block; margin: 5px; cursor: pointer;"></div>
+                    </div>
+
+                    <div class="editor-container">
+                        <textarea id="q9-editor">$(document).ready(function() {
+    $(".q9-box")._____(function() {
+        $(this).css({
+            "background-color": "_____",
+            "transition": "background-color 0.3s"
+        });
+    });
+});</textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary run-code" data-question="9">Kodu Çalıştır</button>
+                        <button class="btn btn-secondary show-solution" data-question="9">Çözümü Göster</button>
+                    </div>
+
+                    <div class="solution" id="solution-9">
+                        <h4>Çözüm:</h4>
+                        <pre>$(document).ready(function() {
+    $(".q9-box").click(function() {
+        $(this).css({
+            "background-color": "#2196F3",
+            "transition": "background-color 0.3s"
+        });
+    });
+});</pre>
+                    </div>
+                </div>
+
+                <!-- Soru 10 -->
+                <div class="quiz-item">
+                    <h3>Soru 10: Scroll Pozisyonu</h3>
+                    <p>Scroll pozisyonunu gösteren kodu yazın:</p>
+                    
+                    <div class="preview-container" style="height: 200px; overflow-y: scroll;">
+                        <div style="height: 500px; padding: 20px;">
+                            <p id="q10-position">Scroll Pozisyonu: 0px</p>
+                            <div style="margin-top: 400px;">Aşağı kaydırın</div>
+                        </div>
+                    </div>
+
+                    <div class="editor-container">
+                        <textarea id="q10-editor">$(document).ready(function() {
+    $(".preview-container")._____(function() {
+        const pos = $(this)._____.();
+        $("#q10-position").text("Scroll Pozisyonu: " + pos + "px");
+    });
+});</textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary run-code" data-question="10">Kodu Çalıştır</button>
+                        <button class="btn btn-secondary show-solution" data-question="10">Çözümü Göster</button>
+                    </div>
+
+                    <div class="solution" id="solution-10">
+                        <h4>Çözüm:</h4>
+                        <pre>$(document).ready(function() {
+    $(".preview-container").scroll(function() {
+        const pos = $(this).scrollTop();
+        $("#q10-position").text("Scroll Pozisyonu: " + pos + "px");
+    });
+});</pre>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // CodeMirror editörlerini başlat
+            const editors = {};
+            document.querySelectorAll('.editor-container textarea').forEach(function(textarea) {
+                editors[textarea.id] = CodeMirror.fromTextArea(textarea, {
+                    mode: "javascript",
+                    theme: "monokai",
+                    lineNumbers: true,
+                    autoCloseBrackets: true
+                });
+            });
+
+            // Çözümleri göster/gizle
+            $('.show-solution').click(function() {
+                const questionId = $(this).data('question');
+                $(`#solution-${questionId}`).slideToggle();
+            });
+
+            // Kodu çalıştır
+            $('.run-code').click(function() {
+                const questionId = $(this).data('question');
+                const code = editors[`q${questionId}-editor`].getValue();
+                
+                try {
+                    // Önceki event listenerları temizle
+                    $(`#q${questionId}-button`).off();
+                    $(`#q${questionId}-box`).off();
+                    $(`#q${questionId}-input`).off();
+                    $(`#q${questionId}-add`).off();
+                    $(`#q${questionId}-remove`).off();
+                    $(`#q${questionId}-toggle`).off();
+                    $(`#q${questionId}-checkbox`).off();
+                    $(`.q${questionId}-box`).off();
+                    $(".preview-container").off();
+                    
+                    // Stil sıfırlama
+                    if(questionId === "9") {
+                        $(".q9-box").css("background-color", "#ddd");
+                    }
+                    
+                    // Kodu çalıştır
+                    eval(code);
+                } catch (error) {
+                    alert('Hata: ' + error.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
