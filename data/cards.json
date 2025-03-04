@@ -46,5 +46,53 @@
             "language": "javascript",
             "content": "// JSON string'i parse etme\nconst jsonString = '{\"ad\":\"Ali\", \"not\":85}';\nconst obj = JSON.parse(jsonString);\nconsole.log(obj.ad); // Ali\n\n// JavaScript objesini JSON'a çevirme\nconst ogrenci = {\n    ad: \"Ayşe\",\n    not: 92,\n    dersler: [\"Matematik\", \"Fizik\"]\n};\nconst jsonData = JSON.stringify(ogrenci);"
         }
+    },
+    "manipulation": {
+        "title": "jQuery Manipulation",
+        "description": "HTML içeriğini değiştirme yöntemleri",
+        "code": {
+            "language": "javascript",
+            "content": "// İçerik Değiştirme\n$(\"#element\").text(\"Yeni metin\")        // Metin değiştirme\n$(\"#element\").html(\"<b>Yeni</b> HTML\")  // HTML değiştirme\n$(\"#element\").val(\"Yeni değer\")        // Form değeri değiştirme\n$(\"#element\").attr(\"src\", \"yeni.jpg\")  // Özellik değiştirme\n\n// Element Ekleme/Silme\n$(\"#element\").append(\"<p>Sona ekle</p>\")   // Sona ekleme\n$(\"#element\").prepend(\"<p>Başa ekle</p>\")  // Başa ekleme\n$(\"#element\").remove()                     // Elementi sil\n$(\"#element\").empty()                      // İçeriği temizle\n\n// CSS Değiştirme\n$(\"#element\").addClass(\"active\")          // Sınıf ekle\n$(\"#element\").removeClass(\"active\")       // Sınıf kaldır\n$(\"#element\").toggleClass(\"active\")       // Sınıf aç/kapa\n$(\"#element\").css(\"color\", \"red\")         // CSS özelliği"
+        }
+    },
+    "ajax": {
+        "title": "jQuery AJAX",
+        "description": "En genel AJAX metodu ile veri alma ve gönderme işlemleri",
+        "code": {
+            "language": "javascript",
+            "content": "// Genel AJAX İsteği\n$.ajax({\n    url: 'api/endpoint',      // İstek yapılacak URL\n    method: 'POST',          // HTTP metodu (GET, POST, PUT, DELETE)\n    data: {                  // Gönderilecek veriler\n        id: 1,\n        name: 'Test'\n    },\n    dataType: 'json',        // Beklenen veri tipi\n    success: function(response) {\n        console.log('Başarılı:', response);\n    },\n    error: function(xhr, status, error) {\n        console.error('Hata:', error);\n    }\n});\n\n// Zincirlenebilir Söz Dizimi\n$.ajax({\n    url: 'api/data',\n    method: 'GET'\n})\n.done(function(response) {\n    console.log('Başarılı');\n})\n.fail(function(xhr, status, error) {\n    console.error('Hata');\n})\n.always(function() {\n    console.log('İşlem tamamlandı');\n});"
+        }
+    },
+    "dom_manipulation": {
+        "title": "DOM'a Öğe Ekleme/Silme",
+        "description": "jQuery ile DOM'a dinamik olarak öğe ekleme ve silme işlemleri",
+        "code": {
+            "language": "javascript",
+            "content": "// Öğe Ekleme\n$(\"#container\").append(\"<p>Sona ekle</p>\")     // Sona ekleme\n$(\"#container\").prepend(\"<p>Başa ekle</p>\")    // Başa ekleme\n$(\"#container\").after(\"<p>Sonrasına ekle</p>\")  // Sonrasına ekleme\n$(\"#container\").before(\"<p>Öncesine ekle</p>\")  // Öncesine ekleme\n\n// Öğe Silme\n$(\"#element\").remove()      // Elementi tamamen sil\n$(\"#element\").empty()       // İçeriği temizle\n$(\"#element\").detach()      // Elementi geçici olarak kaldır"
+        }
+    },
+    "attribute_manipulation": {
+        "title": "Özellik (Attribute) Manipülasyonu",
+        "description": "jQuery ile HTML elementlerinin özelliklerini değiştirme ve yönetme",
+        "code": {
+            "language": "javascript",
+            "content": "// Tekli özellik işlemleri\n$(\"#element\").attr(\"src\", \"yeni.jpg\")     // Özellik değiştirme\n$(\"#element\").attr(\"title\")              // Özellik okuma\n$(\"#element\").removeAttr(\"disabled\")      // Özellik silme\n\n// Çoklu özellik işlemleri\n$(\"#element\").attr({                      // Birden fazla özellik\n    src: \"yeni.jpg\",\n    alt: \"Yeni Resim\",\n    title: \"Yeni Başlık\"\n});\n\n// Özel veri özellikleri\n$(\"#element\").data(\"id\", 123)            // Data özelliği ekle\n$(\"#element\").data(\"id\")                 // Data özelliği oku\n\n// Property işlemleri\n$(\"#element\").prop(\"checked\", true)       // Property değiştir\n$(\"#element\").prop(\"checked\")             // Property oku"
+        }
+    },
+    "getpost": {
+        "title": "$.get() ve $.post()",
+        "description": "jQuery'nin basitleştirilmiş AJAX metodları ile veri alma ve gönderme",
+        "code": {
+            "language": "javascript",
+            "content": "// GET isteği gönderme\n$.get('url', function(data) {\n    console.log('Veri alındı:', data);\n});\n\n// GET isteği - detaylı kullanım\n$.get('url', { id: 1 })  // Query parametreleri\n    .done(function(data) {\n        console.log('Başarılı:', data);\n    })\n    .fail(function(xhr) {\n        console.log('Hata:', xhr.status);\n    });\n\n// POST isteği gönderme\n$.post('url', {\n    name: 'Ali',\n    age: 25\n}, function(response) {\n    console.log('Yanıt:', response);\n});\n\n// POST isteği - detaylı kullanım\n$.post('url', formData)\n    .done(function(data) {\n        console.log('Gönderildi:', data);\n    })\n    .fail(function(xhr) {\n        console.log('Hata:', xhr.status);\n    });"
+        }
+    },
+    "getjson": {
+        "title": "$.getJSON()",
+        "description": "JSON verilerini kolayca almak için kullanılan jQuery metodu",
+        "code": {
+            "language": "javascript",
+            "content": "// Basit $.getJSON() kullanımı\n$.getJSON('veriler.json', function(data) {\n    console.log(data);\n});\n\n// Parametreli $.getJSON() kullanımı\n$.getJSON('api/users', { id: 1 })\n    .done(function(data) {\n        console.log('Başarılı:', data);\n    })\n    .fail(function(xhr, status, error) {\n        console.log('Hata:', error);\n    });\n\n// Promise olarak kullanım\nasync function getJsonData() {\n    try {\n        const data = await $.getJSON('api/posts');\n        return data;\n    } catch (error) {\n        console.error('Hata:', error);\n    }\n}"
+        }
     }
 } 

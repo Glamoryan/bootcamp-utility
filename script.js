@@ -1,169 +1,154 @@
 $(document).ready(function() {
     const urlParams = new URLSearchParams(window.location.search);
     const example = urlParams.get('example');
+    const page = urlParams.get('page') || 'home';
 
-    if (example) {
-        $('.nav-item').removeClass('active');
-        $('.nav-item a[href="pages/jquery-basics.html"]').parent().addClass('active');
-        $('#mainContent').load('pages/jquery-basics.html', function() {
-            Prism.highlightAll();
-            initializePlayground();
-        });
-    } else {
-        $('#mainContent').load('pages/home.html', function() {
-            Prism.highlightAll();
-        });
-    }
+    // Sayfa yükleme
+    loadPage(page, example);
 
+    // Menü tıklamaları
     $('.nav-item a').click(function(e) {
         e.preventDefault();
-        
-        $('.nav-item').removeClass('active');
-
-        $(this).parent().addClass('active');
-        
-        // Load the page content
         const href = $(this).attr('href');
-        $('#mainContent').load(href, function() {
-            Prism.highlightAll();
-            if (href === 'pages/jquery-basics.html') {
-                initializePlayground();
-            }
-        });
+        const newPage = href.replace('pages/', '').replace('.html', '');
+        
+        // Practices sayfası hariç, diğer sayfalarda ilk kartı seç
+        if (newPage === 'jquery-basics') {
+            window.location.href = `?page=${newPage}&example=setup`;
+        } else if (newPage === 'jquery-manipulation') {
+            window.location.href = `?page=${newPage}&example=manipulation`;
+        } else {
+            window.location.href = `?page=${newPage}`;
+        }
     });
 });
 
-function initializePlayground() {
-    let cards = {};
-    let examples = {};
+function loadPage(page, example) {
+    // Aktif menü öğesini güncelle
+    $('.nav-item').removeClass('active');
+    $(`.nav-item a[href="pages/${page}.html"]`).parent().addClass('active');
 
-    $.getJSON('./data/cards.json', function(cardsData) {
-        cards = cardsData;
-        loadCards();
-    }).fail(function(jqXHR, textStatus, errorThrown) {
-        console.error('cards.json yüklenemedi:', textStatus, errorThrown);
+    // Ana içeriği yükle
+    $('#mainContent').load(`pages/${page}.html`, function() {
+        Prism.highlightAll();
+        
+        if (page === 'jquery-basics' || page === 'jquery-manipulation') {
+            // Eğer örnek belirtilmemişse, sayfaya göre varsayılan örneği seç
+            if (!example) {
+                const defaultExample = page === 'jquery-basics' ? 'setup' : 'manipulation';
+                window.location.href = `?page=${page}&example=${defaultExample}`;
+                return;
+            }
+            initializePlayground(page, example);
+        }
     });
+}
 
-    $.getJSON('./data/examples.json', function(examplesData) {
-        examples = examplesData;
-        initializeEditors();
-    }).fail(function(jqXHR, textStatus, errorThrown) {
-        console.error('examples.json yüklenemedi:', textStatus, errorThrown);
+function initializePlayground(page, activeExample) {
+    // JSON verilerini yükle
+    $.getJSON('./data/cards.json', function(cards) {
+        $.getJSON('./data/examples.json', function(examples) {
+            // Kartları yükle
+            loadCards(page, cards, activeExample);
+            
+            // Eğer aktif örnek varsa, editörleri başlat
+            if (activeExample && examples[activeExample]) {
+                initializeEditors(examples[activeExample]);
+            }
+        });
     });
+}
 
-    function loadCards() {
-        const $container = $('#codeExamples');
-        $container.empty();
+function loadCards(page, cards, activeExample) {
+    const $container = $('#codeExamples');
+    const relevantCards = page === 'jquery-basics' 
+        ? ['setup', 'ready', 'selectors', 'events', 'xml', 'json']
+        : ['manipulation', 'dom_manipulation', 'attribute_manipulation', 'ajax', 'getpost', 'getjson'];
 
-        Object.entries(cards).forEach(([key, card]) => {
+    relevantCards.forEach(key => {
+        if (cards[key]) {
+            const card = cards[key];
+            const isActive = key === activeExample;
+            
             const cardHtml = `
-                <div class="code-example" data-example="${key}">
+                <div class="code-example ${isActive ? 'active' : ''}" data-example="${key}">
                     <div class="example-header">
                         <h3>${card.title}</h3>
-                        <button class="select-example">
+                        <a href="?page=${page}&example=${key}" class="select-example">
                             <i class="fas fa-check"></i> Seç
-                        </button>
+                        </a>
                     </div>
                     <p>${card.description}</p>
-                    <pre><code class="language-${card.code.language}"></code></pre>
+                    <pre><code class="language-${card.code.language}">${card.code.content}</code></pre>
                 </div>
             `;
             
-            const $card = $(cardHtml);
-            $card.find('code').text(card.code.content);
-            $container.append($card);
-        });
-
-        setTimeout(() => {
-            Prism.highlightAll();
-        }, 100);
-
-        $('.select-example').click(function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const example = $(this).closest('.code-example').data('example');
-            window.location.href = window.location.pathname + '?example=' + example;
-        });
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const activeExample = urlParams.get('example') || 'setup';
-        $(`.code-example[data-example="${activeExample}"]`).addClass('active');
-    }
-
-    function initializeEditors() {
-        const htmlEditor = CodeMirror.fromTextArea(document.getElementById('htmlEditor'), {
-            mode: 'xml',
-            theme: 'monokai',
-            lineNumbers: true
-        });
-
-        const jsEditor = CodeMirror.fromTextArea(document.getElementById('jsEditor'), {
-            mode: 'javascript',
-            theme: 'monokai',
-            lineNumbers: true
-        });
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const activeExample = urlParams.get('example') || 'setup';
-        const exampleData = examples[activeExample];
-
-        if (!exampleData) return;
-
-        if (activeExample === 'ready') {
-            $('#htmlSection').hide();
-            $('#playgroundContainer').addClass('single-editor');
-            jsEditor.setValue(exampleData.js);
-        } else {
-            $('#htmlSection').show();
-            $('#playgroundContainer').removeClass('single-editor');
-            htmlEditor.setValue(exampleData.html);
-            jsEditor.setValue(exampleData.js);
+            $container.append(cardHtml);
         }
+    });
 
-        $('#exampleTitle').text(exampleData.title);
-        $('#exampleDesc').text(exampleData.description);
+    Prism.highlightAll();
+}
 
-        $('#runCode').click(function() {
-            if (activeExample === 'ready') {
-                const completeCode = exampleData.html.replace('</head>', `
-                    <style>${exampleData.css}</style>
-                    <script>${jsEditor.getValue()}<\/script>
-                    </head>
-                `);
-                
-                const iframe = document.getElementById('previewFrame');
-                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                
-                iframeDoc.open();
-                iframeDoc.write(completeCode);
-                iframeDoc.close();
-            } else {
-                const html = htmlEditor.getValue();
-                const js = jsEditor.getValue();
+function initializeEditors(example) {
+    // Başlık ve açıklamayı güncelle
+    $('#exampleTitle').text(example.title);
+    $('#exampleDesc').text(example.description);
 
-                if (!html.includes('jquery')) {
-                    alert('Lütfen önce HTML koduna jQuery kütüphanesini ekleyin!\n\nÖrnek:\n<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>');
-                    return;
-                }
+    // HTML editörünü başlat
+    const htmlEditor = CodeMirror.fromTextArea(document.getElementById('htmlEditor'), {
+        mode: 'xml',
+        theme: 'monokai',
+        lineNumbers: true
+    });
 
-                const completeCode = html.replace('</head>', `
-                    <style>${exampleData.css}</style>
-                    <script>${js}<\/script>
-                    </head>
-                `);
+    // JavaScript editörünü başlat
+    const jsEditor = CodeMirror.fromTextArea(document.getElementById('jsEditor'), {
+        mode: 'javascript',
+        theme: 'monokai',
+        lineNumbers: true
+    });
 
-                const iframe = document.getElementById('previewFrame');
-                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-
-                iframeDoc.open();
-                iframeDoc.write(completeCode);
-                iframeDoc.close();
-            }
-        });
-
-        $('#runCode').click();
+    // Editör içeriklerini ayarla
+    if (example.html) {
+        $('#htmlSection').show();
+        $('#playgroundContainer').removeClass('single-editor');
+        htmlEditor.setValue(example.html);
+    } else {
+        $('#htmlSection').hide();
+        $('#playgroundContainer').addClass('single-editor');
     }
+    
+    jsEditor.setValue(example.js);
+
+    // Run Code butonunu ayarla
+    $('#runCode').click(function() {
+        const completeCode = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>jQuery Example</title>
+                <style>${example.css || ''}</style>
+                <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+                ${example.html ? '' : '<script>' + jsEditor.getValue() + '</script>'}
+            </head>
+            <body>
+                ${example.html ? htmlEditor.getValue() : example.html}
+                ${example.html ? '<script>' + jsEditor.getValue() + '</script>' : ''}
+            </body>
+            </html>
+        `;
+        
+        const iframe = document.getElementById('previewFrame');
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        
+        iframeDoc.open();
+        iframeDoc.write(completeCode);
+        iframeDoc.close();
+    });
+
+    // Otomatik çalıştır
+    $('#runCode').click();
 }
 
 function checkjQuery() {
