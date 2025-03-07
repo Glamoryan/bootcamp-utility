@@ -10,6 +10,178 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../assets/css/practices.css">
+    <style>
+        /* Existing styles */
+        
+        /* Effects Quiz Styles */
+        .effect-box {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .effect-box h4 {
+            margin: 0 0 10px;
+            color: #2c3e50;
+        }
+
+        .effect-box p {
+            margin: 0;
+            color: #666;
+        }
+
+        /* Advanced DOM Quiz Styles */
+        #itemList {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        #itemList li {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        #itemList li.selected {
+            transform: translateX(10px);
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        /* CodeMirror Editör Stilleri */
+        .CodeMirror {
+            height: auto;
+            min-height: 100px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        .editor-container {
+            margin: 15px 0;
+        }
+
+        .editor {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+
+        /* Quiz Item Stilleri */
+        .quiz-item {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .solution-container {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #2196F3;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Yeni quiz stilleri */
+        #familyTree {
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .generation {
+            padding: 15px;
+            margin: 10px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background: white;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .task-text {
+            flex: 1;
+        }
+
+        .task-text.completed {
+            text-decoration: line-through;
+            color: #666;
+        }
+
+        .btn-complete, .btn-delete {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-complete {
+            background: #4CAF50;
+        }
+
+        .btn-complete:hover {
+            background: #388E3C;
+        }
+
+        .btn-delete {
+            background: #f44336;
+        }
+
+        .btn-delete:hover {
+            background: #D32F2F;
+        }
+
+        #newTaskInput {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+            flex: 1;
+        }
+
+        .mt-3 {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="page">
@@ -603,6 +775,252 @@
 
             </div>
         </div>
+
+        <!-- jQuery Effects Quiz -->
+        <div class="quiz-item">
+            <div class="question">
+                <h3>Soru 13: jQuery Effects</h3>
+                <p>Bir butona tıklandığında, hedef elementi önce soldan sağa doğru kaydırın, ardından fade out efekti uygulayın ve son olarak elementi yukarıdan aşağıya doğru slide edin.</p>
+                <div class="preview-container">
+                    <button id="effectsBtn" class="btn btn-primary">Efektleri Başlat</button>
+                    <div id="effectsTarget" class="effect-box">
+                        <h4>Efekt Hedefi</h4>
+                        <p>Bu kutu üzerinde efektler uygulanacak</p>
+                    </div>
+                </div>
+                <div class="editor-container">
+                    <textarea id="q13-editor">$(document).ready(function() {
+    $("#effectsBtn").click(function() {
+        $("#effectsTarget")
+            ._____({"marginLeft": "_____"}, _____)
+            ._____(_____)
+            ._____(1000);
+    });
+});</textarea>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary run-code" data-question="13">Kodu Çalıştır</button>
+                    <button class="btn btn-secondary show-solution" data-question="13">Çözümü Göster</button>
+                </div>
+                <div class="solution" id="solution-13">
+                    <h4>Çözüm:</h4>
+                    <pre>$(document).ready(function() {
+    $("#effectsBtn").click(function() {
+        $("#effectsTarget")
+            .animate({"marginLeft": "200px"}, 1000)
+            .fadeOut(1000)
+            .slideDown(1000);
+    });
+});</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced DOM Quiz -->
+        <div class="quiz-item">
+            <div class="question">
+                <h3>Soru 14: Advanced DOM</h3>
+                <p>Verilen listedeki elementleri filtreleyerek, sadece "önemli" sınıfına sahip olanları seçin ve bu elementlerin metin rengini kırmızı yapın. Ardından seçilen elementlerin kardeş elementlerine mavi renk uygulayın.</p>
+                <div class="preview-container">
+                    <ul id="itemList">
+                        <li class="onemli">Önemli Öğe 1</li>
+                        <li>Normal Öğe 1</li>
+                        <li class="onemli">Önemli Öğe 2</li>
+                        <li>Normal Öğe 2</li>
+                        <li class="onemli">Önemli Öğe 3</li>
+                    </ul>
+                    <button id="filterBtn" class="btn btn-primary">Filtrele ve Uygula</button>
+                </div>
+                <div class="editor-container">
+                    <textarea id="q14-editor">$(document).ready(function() {
+    $("#filterBtn").click(function() {
+        $("#itemList li")
+            .removeClass("_____")
+            .css("color", "_____");
+            
+        $("#itemList li._____")
+            .addClass("_____")
+            .css("color", "_____")
+            ._____(_____)
+            .css("color", "_____");
+    });
+});</textarea>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary run-code" data-question="14">Kodu Çalıştır</button>
+                    <button class="btn btn-secondary show-solution" data-question="14">Çözümü Göster</button>
+                </div>
+                <div class="solution" id="solution-14">
+                    <h4>Çözüm:</h4>
+                    <pre>$(document).ready(function() {
+    $("#filterBtn").click(function() {
+        $("#itemList li")
+            .removeClass("selected")
+            .css("color", "black");
+            
+        $("#itemList li.onemli")
+            .addClass("selected")
+            .css("color", "red")
+            .siblings()
+            .css("color", "blue");
+    });
+});</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Soru 15: Element Klonlama ve Özelleştirme -->
+        <div class="quiz-item">
+            <div class="question">
+                <h3>Soru 15: Element Klonlama ve Özelleştirme</h3>
+                <p>Orijinal elementi klonlayın, klonun içeriğini değiştirin ve yeni özellikler ekleyin:</p>
+                <div class="preview-container">
+                    <div id="originalElement" class="effect-box">
+                        <h4>Orijinal Element</h4>
+                        <p>Bu element klonlanacak</p>
+                        <span class="badge">Versiyon 1.0</span>
+                    </div>
+                    <div id="cloneContainer"></div>
+                    <button id="cloneBtn" class="btn btn-primary mt-3">Klonla ve Özelleştir</button>
+                </div>
+                <div class="editor-container">
+                    <textarea id="q15-editor">$(document).ready(function() {
+    $("#cloneBtn").click(function() {
+        // Elementi klonla
+        const $clone = $("#originalElement")._____(true);
+        
+        // Klonun içeriğini değiştir
+        $clone
+            .find("_____").text("Klonlanmış Element").end()
+            .find("_____").text("Bu element özelleştirildi").end()
+            .find(".badge").text("Versiyon 2.0");
+        
+        // Yeni özellikler ekle
+        $clone
+            .css({
+                "background": "#e3f2fd",
+                "transform": "scale(0.9)"
+            })
+            ._____({"data-cloned": "true"})
+            .addClass("_____");
+        
+        // Klonu container'a ekle
+        $("#cloneContainer").html($clone);
+    });
+});</textarea>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary run-code" data-question="15">Kodu Çalıştır</button>
+                    <button class="btn btn-secondary show-solution" data-question="15">Çözümü Göster</button>
+                </div>
+                <div class="solution" id="solution-15">
+                    <h4>Çözüm:</h4>
+                    <pre>$(document).ready(function() {
+    $("#cloneBtn").click(function() {
+        // Elementi klonla
+        const $clone = $("#originalElement").clone(true);
+        
+        // Klonun içeriğini değiştir
+        $clone
+            .find("h4").text("Klonlanmış Element").end()
+            .find("p").text("Bu element özelleştirildi").end()
+            .find(".badge").text("Versiyon 2.0");
+        
+        // Yeni özellikler ekle
+        $clone
+            .css({
+                "background": "#e3f2fd",
+                "transform": "scale(0.9)"
+            })
+            .attr({"data-cloned": "true"})
+            .addClass("cloned-element");
+        
+        // Klonu container'a ekle
+        $("#cloneContainer").html($clone);
+    });
+});</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Soru 16: DOM Traversing -->
+        <div class="quiz-item">
+            <div class="question">
+                <h3>Soru 16: DOM Traversing</h3>
+                <p>Seçilen elementin parent, child ve sibling elementlerini manipüle edin:</p>
+                <div class="preview-container">
+                    <div id="familyTree">
+                        <div class="generation parent">
+                            <h4>Ebeveyn Element</h4>
+                            <div class="generation current">
+                                <h4>Mevcut Element</h4>
+                                <div class="generation child">
+                                    <h4>Çocuk Element 1</h4>
+                                </div>
+                                <div class="generation child">
+                                    <h4>Çocuk Element 2</h4>
+                                </div>
+                            </div>
+                            <div class="generation sibling">
+                                <h4>Kardeş Element</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="traverseBtn" class="btn btn-primary mt-3">Elementleri Manipüle Et</button>
+                </div>
+                <div class="editor-container">
+                    <textarea id="q16-editor">$(document).ready(function() {
+    $("#traverseBtn").click(function() {
+        const $current = $(".generation.current");
+        
+        // Parent elementi bul ve manipüle et
+        $current._____()
+            .css("background", "#fff3e0")
+            .find("h4").append(" (Manipüle Edildi)");
+        
+        // Child elementleri bul ve manipüle et
+        $current._____(".child")
+            .css("background", "#e8f5e9")
+            .find("h4").append(" (Manipüle Edildi)");
+        
+        // Sibling elementi bul ve manipüle et
+        $current._____(".sibling")
+            .css("background", "#e3f2fd")
+            .find("h4").append(" (Manipüle Edildi)");
+    });
+});</textarea>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary run-code" data-question="16">Kodu Çalıştır</button>
+                    <button class="btn btn-secondary show-solution" data-question="16">Çözümü Göster</button>
+                </div>
+                <div class="solution" id="solution-16">
+                    <h4>Çözüm:</h4>
+                    <pre>$(document).ready(function() {
+    $("#traverseBtn").click(function() {
+        const $current = $(".generation.current");
+        
+        // Parent elementi bul ve manipüle et
+        $current.parent()
+            .css("background", "#fff3e0")
+            .find("h4").append(" (Manipüle Edildi)");
+        
+        // Child elementleri bul ve manipüle et
+        $current.find(".child")
+            .css("background", "#e8f5e9")
+            .find("h4").append(" (Manipüle Edildi)");
+        
+        // Sibling elementi bul ve manipüle et
+        $current.siblings(".sibling")
+            .css("background", "#e3f2fd")
+            .find("h4").append(" (Manipüle Edildi)");
+    });
+});</pre>
+                </div>
+            </div>
+        </div>
+
+        
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
@@ -611,14 +1029,24 @@
         $(document).ready(function() {
             // CodeMirror editörlerini başlat
             const editors = {};
-            document.querySelectorAll('.editor-container textarea').forEach(function(textarea) {
-                editors[textarea.id] = CodeMirror.fromTextArea(textarea, {
-                    mode: "javascript",
-                    theme: "monokai",
-                    lineNumbers: true,
-                    autoCloseBrackets: true
+            
+            // Tüm editörleri başlat
+            function initializeEditors() {
+                // Normal quiz editörleri
+                document.querySelectorAll('.editor-container textarea').forEach(function(textarea) {
+                    editors[textarea.id] = CodeMirror.fromTextArea(textarea, {
+                        mode: "javascript",
+                        theme: "monokai",
+                        lineNumbers: true,
+                        autoCloseBrackets: true,
+                        lineWrapping: true,
+                        viewportMargin: Infinity
+                    });
                 });
-            });
+            }
+
+            // Editörleri başlat
+            initializeEditors();
 
             // Çözümleri göster/gizle
             $('.show-solution').click(function() {
@@ -642,6 +1070,8 @@
                     $(`#q${questionId}-checkbox`).off();
                     $(`.q${questionId}-box`).off();
                     $(".preview-container").off();
+                    $("#effectsBtn").off();
+                    $("#filterBtn").off();
                     
                     // Önceki içeriği temizle
                     if(questionId === "11") {
@@ -650,6 +1080,12 @@
                     if(questionId === "12") {
                         $("#q12-list").empty();
                         $("#q12-average").text("-");
+                    }
+                    if(questionId === "13") {
+                        $("#effectsTarget").removeAttr("style").show();
+                    }
+                    if(questionId === "14") {
+                        $("#itemList li").removeClass("selected").css("color", "");
                     }
                     
                     // Kodu çalıştır

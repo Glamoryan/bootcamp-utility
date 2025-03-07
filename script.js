@@ -19,6 +19,8 @@ $(document).ready(function() {
             window.location.href = `?page=${newPage}&example=manipulation`;
         } else if (newPage === 'jquery-effects') {
             window.location.href = `?page=${newPage}&example=visibility_effects`;
+        } else if (newPage === 'advanced-dom') {
+            window.location.href = `?page=${newPage}&example=traversing`;
         } else {
             window.location.href = `?page=${newPage}`;
         }
@@ -34,12 +36,13 @@ function loadPage(page, example) {
     $('#mainContent').load(`pages/${page}.html`, function() {
         Prism.highlightAll();
         
-        if (page === 'jquery-basics' || page === 'jquery-manipulation' || page === 'jquery-effects') {
+        if (page === 'jquery-basics' || page === 'jquery-manipulation' || page === 'jquery-effects' || page === 'advanced-dom') {
             // Eğer örnek belirtilmemişse, sayfaya göre varsayılan örneği seç
             if (!example) {
                 const defaultExample = page === 'jquery-basics' ? 'setup' : 
                                      page === 'jquery-manipulation' ? 'manipulation' : 
-                                     'visibility_effects';
+                                     page === 'jquery-effects' ? 'visibility_effects' :
+                                     'traversing';
                 window.location.href = `?page=${page}&example=${defaultExample}`;
                 return;
             }
@@ -73,6 +76,8 @@ function loadCards(page, cards, activeExample) {
         relevantCards = ['manipulation', 'dom_manipulation', 'attribute_manipulation', 'ajax', 'getpost', 'getjson', 'debounce_throttle', 'cache'];
     } else if (page === 'jquery-effects') {
         relevantCards = ['visibility_effects', 'fade_effects', 'slide_effects', 'animate_effects', 'queue_effects', 'fancybox_plugin', 'slick_plugin', 'custom_plugin', 'validate_plugin', 'datepicker_plugin', 'masonry_plugin'];
+    } else if (page === 'advanced-dom') {
+        relevantCards = ['traversing', 'siblings', 'filtering', 'cloning', 'replacing_wrapping', 'localstorage'];
     }
 
     relevantCards.forEach(key => {

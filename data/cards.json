@@ -198,5 +198,53 @@
             "language": "javascript",
             "content": "// Masonry kurulumu\n&lt;script src=\"https://unpkg.com/masonry-layout@4.2.2/dist/masonry.pkgd.min.js\"&gt;&lt;/script&gt;\n\n// Temel kullanım\n$('.grid').masonry({\n    itemSelector: '.grid-item',\n    columnWidth: 200,\n    gutter: 10\n});\n\n// imagesLoaded plugin'i ile kullanım\n$('.grid').imagesLoaded().progress(function() {\n    $('.grid').masonry('layout');\n});\n\n// Özelleştirilmiş ayarlar\n$('.grid').masonry({\n    itemSelector: '.grid-item',\n    columnWidth: '.grid-sizer',\n    percentPosition: true,\n    gutter: '.gutter-sizer',\n    horizontalOrder: true,\n    fitWidth: true,\n    originLeft: true,\n    originTop: true,\n    transitionDuration: '0.4s',\n    stagger: 30,\n    resize: true\n});\n\n// Yeni öğeler ekleme\n$('.grid').append(items)\n    .masonry('appended', items);\n\n// Öğeleri filtreleme\n$('.grid').masonry('remove', elements)\n    .masonry('layout');\n\n// Olayları dinleme\n$('.grid').on('layoutComplete', function(event, items) {\n    console.log(items.length + ' öğe yerleştirildi');\n});"
         }
+    },
+    "traversing": {
+        "title": "jQuery Traversing",
+        "description": "jQuery ile DOM ağacında gezinme ve element seçme yöntemleri",
+        "code": {
+            "language": "javascript",
+            "content": "// Üst elementlere gitme\n$('span').parent();           // Direkt üst element\n$('span').parents();          // Tüm üst elementler\n$('span').parents('div');     // div olan üst elementler\n$('span').parentsUntil('div'); // div'e kadar olan üst elementler\n\n// Alt elementlere gitme\n$('div').children();          // Direkt alt elementler\n$('div').children('.menu');   // .menu class'ına sahip alt elementler\n$('div').find('span');        // Tüm alt elementler içinde span olanlar\n\n// Kardeş elementlere gitme\n$('li').siblings();           // Tüm kardeş elementler\n$('li').next();              // Sonraki kardeş element\n$('li').nextAll();           // Sonraki tüm kardeş elementler\n$('li').nextUntil('div');    // div'e kadar olan sonraki kardeş elementler\n$('li').prev();              // Önceki kardeş element\n$('li').prevAll();           // Önceki tüm kardeş elementler\n$('li').prevUntil('div');    // div'e kadar olan önceki kardeş elementler\n\n// Filtreleme metodları\n$('p').first();              // İlk p elementi\n$('p').last();               // Son p elementi\n$('p').eq(1);                // İndeksi 1 olan p elementi\n$('p').filter('.intro');     // .intro class'ına sahip p elementleri\n$('p').not('.intro');        // .intro class'ına sahip olmayan p elementleri\n\n// Zincirleme kullanım\n$('div')\n    .find('p')\n    .filter('.intro')\n    .children('span')\n    .addClass('highlight');"
+        }
+    },
+    "siblings": {
+        "title": "jQuery Yatay Geçiş (Siblings)",
+        "description": "jQuery ile kardeş elementler arasında gezinme ve seçme yöntemleri",
+        "code": {
+            "language": "javascript",
+            "content": "// Tüm kardeş elementleri seçme\n$('#orta').siblings();           // #orta elementinin tüm kardeşleri\n$('#orta').siblings('.ozel');    // #orta elementinin .ozel sınıfına sahip kardeşleri\n\n// Sonraki kardeş elementleri seçme\n$('#orta').next();               // #orta elementinden sonraki element\n$('#orta').nextAll();            // #orta elementinden sonraki tüm elementler\n$('#orta').nextAll('.ozel');     // #orta elementinden sonraki .ozel sınıfına sahip elementler\n$('#orta').nextUntil('#son');    // #orta elementinden #son elementine kadar olan elementler\n\n// Önceki kardeş elementleri seçme\n$('#orta').prev();               // #orta elementinden önceki element\n$('#orta').prevAll();            // #orta elementinden önceki tüm elementler\n$('#orta').prevAll('.ozel');     // #orta elementinden önceki .ozel sınıfına sahip elementler\n$('#orta').prevUntil('#ilk');    // #orta elementinden #ilk elementine kadar olan elementler\n\n// Kardeşler arasında filtreleme\n$('li').siblings().filter(':visible');  // Görünür kardeş elementleri\n$('li').siblings().not('.active');      // .active sınıfına sahip olmayan kardeşler\n\n// Kardeşlere uygulama\n$('#orta').siblings().addClass('kardes');  // Tüm kardeşlere sınıf ekleme\n$('#orta').next().css('color', 'red');     // Sonraki kardeşin rengini değiştirme\n$('#orta').prevAll().hide();               // Önceki tüm kardeşleri gizleme\n\n// Zincirleme kullanım\n$('#orta')\n    .nextAll()\n    .addClass('sonraki')\n    .end()\n    .prevAll()\n    .addClass('onceki');"
+        }
+    },
+    "filtering": {
+        "title": "jQuery Filtreleme Metotları",
+        "description": "jQuery ile element kümelerini filtreleme ve daraltma yöntemleri",
+        "code": {
+            "language": "javascript",
+            "content": "// İndeks tabanlı filtreleme\n$('li').eq(0);                // İlk li elementini seç (0 indeksli)\n$('li').eq(-1);               // Son li elementini seç (negatif indeks sondan başlar)\n$('li').first();              // İlk li elementini seç (eq(0) ile aynı)\n$('li').last();               // Son li elementini seç (eq(-1) ile aynı)\n\n// Aralık seçme\n$('li').slice(2, 5);          // 2. indeksten 5. indekse kadar olan li elementleri (5 dahil değil)\n$('li').slice(3);             // 3. indeksten sona kadar olan li elementleri\n$('li').slice(-3);            // Sondan 3 li elementi\n\n// Koşullu filtreleme\n$('li').filter('.active');    // .active sınıfına sahip li elementleri\n$('li').filter(':even');      // Çift indeksli li elementleri (0, 2, 4, ...)\n$('li').filter(':odd');       // Tek indeksli li elementleri (1, 3, 5, ...)\n$('li').filter(':contains(\"Metin\")'); // İçinde \"Metin\" geçen li elementleri\n$('li').filter(function() {\n    return $(this).text().length > 10; // Metin uzunluğu 10'dan büyük olanlar\n});\n\n// Hariç tutma\n$('li').not('.active');       // .active sınıfına sahip olmayan li elementleri\n$('li').not(':first');        // İlk li elementi hariç diğerleri\n$('li').not(function() {\n    return $(this).hasClass('special'); // .special sınıfına sahip olmayanlar\n});\n\n// Filtreleme ve işlem zincirleme\n$('li')\n    .filter(':visible')       // Görünür olanları filtrele\n    .not('.disabled')         // .disabled sınıfına sahip olmayanları seç\n    .slice(0, 3)              // İlk 3 tanesini al\n    .addClass('selected');     // Seçilenlere sınıf ekle\n\n// Özel seçicilerle filtreleme\n$('input:checked');           // Seçili input elementleri\n$('div:has(p)');              // İçinde p elementi olan div'ler\n$('tr:even');                 // Çift indeksli satırlar (zebra tablo için)"
+        }
+    },
+    "cloning": {
+        "title": "jQuery Element Klonlama",
+        "description": "jQuery ile DOM elementlerini klonlama ve kopyalama yöntemleri",
+        "code": {
+            "language": "javascript",
+            "content": "// Temel klonlama\n$('#element').clone();           // Elementi klonla\n\n// Klonlanan elementi DOM'a ekleme\n$('#element').clone().appendTo('#target');  // Klonu hedef elemente ekle\n\n// Olayları da klonlama\n$('#element').clone(true);      // Elementi ve olaylarını klonla\n$('#element').clone(true, true); // Elementi, olaylarını ve veri özelliklerini klonla\n\n// Klonlama ve değiştirme\nconst $clone = $('#element').clone();\n$clone.attr('id', 'newId');\n$clone.text('Yeni İçerik');\n$('#target').append($clone);\n\n// Çoklu element klonlama\n$('.items').clone().appendTo('#newContainer');\n\n// Klonlama ve filtreleme\n$('#list li').clone().filter(':even').appendTo('#evenList');\n\n// Klonlama ve içerik değiştirme\n$('#template')\n    .clone()\n    .find('.title').text('Yeni Başlık').end()\n    .find('.content').html('Yeni <strong>içerik</strong>').end()\n    .appendTo('#container');\n\n// Dinamik form alanları oluşturma\n$('#addField').click(function() {\n    const $field = $('#fieldTemplate').clone();\n    $field.removeAttr('id');\n    $field.find('input').val('');\n    $('#formFields').append($field);\n});"
+        }
+    },
+    "replacing_wrapping": {
+        "title": "Replacing & Wrapping Elements",
+        "description": "jQuery ile elementleri değiştirme ve sarmalama yöntemleri",
+        "code": {
+            "language": "javascript",
+            "content": "// Element değiştirme metodları\n$('#element').replaceWith('<div>Yeni Element</div>');\n$('<div>Yeni Element</div>').replaceAll('#element');\n\n// HTML içeriği değiştirme\n$('#element').html('<p>Yeni İçerik</p>');\n\n// Element sarmalama metodları\n$('#element').wrap('<div class=\"wrapper\"></div>');\n$('.items').wrapAll('<div class=\"container\"></div>');\n$('#element').wrapInner('<div class=\"inner\"></div>');\n\n// Sarmalayıcıyı kaldırma\n$('#element').unwrap();\n\n// Zincirleme kullanım\n$('#element')\n    .wrap('<div class=\"outer\"></div>')\n    .wrapInner('<div class=\"inner\"></div>')\n    .html('Yeni İçerik');"
+        }
+    },
+    "localstorage": {
+        "title": "jQuery ile LocalStorage Kullanımı",
+        "description": "jQuery ile tarayıcı localStorage API'sini kullanma ve veri yönetimi",
+        "code": {
+            "language": "javascript",
+            "content": "// LocalStorage'a veri kaydetme\n$('#saveBtn').click(function() {\n    localStorage.setItem('userPrefs', JSON.stringify({\n        theme: 'dark',\n        fontSize: '16px'\n    }));\n});\n\n// LocalStorage'dan veri okuma\n$('#loadBtn').click(function() {\n    const prefs = JSON.parse(localStorage.getItem('userPrefs'));\n    if (prefs) {\n        $('body').addClass(prefs.theme);\n        $('.content').css('font-size', prefs.fontSize);\n    }\n});"
+        }
     }
 } 
