@@ -17,6 +17,8 @@ $(document).ready(function() {
             window.location.href = `?page=${newPage}&example=setup`;
         } else if (newPage === 'jquery-manipulation') {
             window.location.href = `?page=${newPage}&example=manipulation`;
+        } else if (newPage === 'jquery-effects') {
+            window.location.href = `?page=${newPage}&example=visibility_effects`;
         } else {
             window.location.href = `?page=${newPage}`;
         }
@@ -32,10 +34,12 @@ function loadPage(page, example) {
     $('#mainContent').load(`pages/${page}.html`, function() {
         Prism.highlightAll();
         
-        if (page === 'jquery-basics' || page === 'jquery-manipulation') {
+        if (page === 'jquery-basics' || page === 'jquery-manipulation' || page === 'jquery-effects') {
             // Eğer örnek belirtilmemişse, sayfaya göre varsayılan örneği seç
             if (!example) {
-                const defaultExample = page === 'jquery-basics' ? 'setup' : 'manipulation';
+                const defaultExample = page === 'jquery-basics' ? 'setup' : 
+                                     page === 'jquery-manipulation' ? 'manipulation' : 
+                                     'visibility_effects';
                 window.location.href = `?page=${page}&example=${defaultExample}`;
                 return;
             }
@@ -61,9 +65,15 @@ function initializePlayground(page, activeExample) {
 
 function loadCards(page, cards, activeExample) {
     const $container = $('#codeExamples');
-    const relevantCards = page === 'jquery-basics' 
-        ? ['setup', 'ready', 'selectors', 'events', 'xml', 'json']
-        : ['manipulation', 'dom_manipulation', 'attribute_manipulation', 'ajax', 'getpost', 'getjson'];
+    let relevantCards = [];
+
+    if (page === 'jquery-basics') {
+        relevantCards = ['setup', 'ready', 'selectors', 'events', 'xml', 'json'];
+    } else if (page === 'jquery-manipulation') {
+        relevantCards = ['manipulation', 'dom_manipulation', 'attribute_manipulation', 'ajax', 'getpost', 'getjson', 'debounce_throttle', 'cache'];
+    } else if (page === 'jquery-effects') {
+        relevantCards = ['visibility_effects', 'fade_effects', 'slide_effects', 'animate_effects', 'queue_effects', 'fancybox_plugin', 'slick_plugin', 'custom_plugin', 'validate_plugin', 'datepicker_plugin', 'masonry_plugin'];
+    }
 
     relevantCards.forEach(key => {
         if (cards[key]) {

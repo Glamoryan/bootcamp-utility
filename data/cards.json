@@ -4,7 +4,7 @@
         "description": "jQuery kurulum yolları",
         "code": {
             "language": "html",
-            "content": "<!-- CDN ile jQuery Kurulumu -->\n<script src=\"https://code.jquery.com/jquery-3.7.1.min.js\"></script>\n\n<!-- NPM ile jQuery Kurulumu -->\nnpm install jquery\n\n<!-- Yerel Dosya ile jQuery Kurulumu -->\n<script src=\"js/jquery.min.js\"></script>"
+            "content": "<!-- CDN ile jQuery Kurulumu -->\n&lt;!-- En son sürüm jQuery CDN --&gt;\n&lt;script src=\"https://code.jquery.com/jquery-3.7.1.min.js\"&gt;&lt;/script&gt;\n\n<!-- NPM ile jQuery Kurulumu -->\n&lt;!-- Terminal: npm install jquery --&gt;\nnpm install jquery\n\n<!-- Yerel Dosya ile jQuery Kurulumu -->\n&lt;!-- js klasörüne indirilen jquery.min.js dosyası --&gt;\n&lt;script src=\"js/jquery.min.js\"&gt;&lt;/script&gt;"
         }
     },
     "ready": {
@@ -93,6 +93,110 @@
         "code": {
             "language": "javascript",
             "content": "// Basit $.getJSON() kullanımı\n$.getJSON('veriler.json', function(data) {\n    console.log(data);\n});\n\n// Parametreli $.getJSON() kullanımı\n$.getJSON('api/users', { id: 1 })\n    .done(function(data) {\n        console.log('Başarılı:', data);\n    })\n    .fail(function(xhr, status, error) {\n        console.log('Hata:', error);\n    });\n\n// Promise olarak kullanım\nasync function getJsonData() {\n    try {\n        const data = await $.getJSON('api/posts');\n        return data;\n    } catch (error) {\n        console.error('Hata:', error);\n    }\n}"
+        }
+    },
+    "debounce_throttle": {
+        "title": "Debounce & Throttle",
+        "description": "jQuery ile performans optimizasyonu için debounce ve throttle kullanımı",
+        "code": {
+            "language": "javascript",
+            "content": "// Debounce Fonksiyonu\nfunction debounce(func, wait) {\n    let timeout;\n    return function() {\n        clearTimeout(timeout);\n        timeout = setTimeout(() => func.apply(this, arguments), wait);\n    };\n}\n\n// Throttle Fonksiyonu\nfunction throttle(func, limit) {\n    let inThrottle;\n    return function() {\n        if (!inThrottle) {\n            func.apply(this, arguments);\n            inThrottle = true;\n            setTimeout(() => inThrottle = false, limit);\n        }\n    };\n}\n\n// Debounce Kullanımı\n$(window).on('resize', debounce(function() {\n    console.log('Pencere boyutu değişti');\n}, 250));\n\n// Throttle Kullanımı\n$(window).on('scroll', throttle(function() {\n    console.log('Sayfa kaydırıldı');\n}, 500));"
+        }
+    },
+    "cache": {
+        "title": "jQuery Cache Kullanımı",
+        "description": "Gereksiz AJAX isteklerini önlemek için cache mekanizması kullanımı",
+        "code": {
+            "language": "javascript",
+            "content": "// Cache mekanizması oluşturma\nconst cache = {\n    data: {},\n    timeout: 5 * 60 * 1000, // 5 dakika\n    \n    // Veriyi cache'e ekle\n    set: function(key, value) {\n        this.data[key] = {\n            value: value,\n            timestamp: Date.now()\n        };\n    },\n    \n    // Cache'den veri al\n    get: function(key) {\n        const item = this.data[key];\n        if (!item) return null;\n        \n        // Cache süresi dolmuş mu kontrol et\n        if (Date.now() - item.timestamp > this.timeout) {\n            delete this.data[key];\n            return null;\n        }\n        \n        return item.value;\n    }\n};\n\n// Cache kullanarak AJAX isteği\nfunction fetchData(url) {\n    // Önce cache'i kontrol et\n    const cachedData = cache.get(url);\n    if (cachedData) {\n        return $.Deferred().resolve(cachedData);\n    }\n    \n    // Cache'de yoksa AJAX isteği yap\n    return $.getJSON(url)\n        .then(function(data) {\n            cache.set(url, data);\n            return data;\n        });\n}"
+        }
+    },
+    "visibility_effects": {
+        "title": "Show, Hide ve Toggle Metodları",
+        "description": "jQuery'nin temel görünürlük efektleri olan show(), hide() ve toggle() metodlarının kullanımı.",
+        "code": {
+            "language": "javascript",
+            "content": "// Elementi gizle\n$('#element').hide();\n\n// Elementi göster\n$('#element').show();\n\n// Elementi aç/kapa\n$('#element').toggle();\n\n// Animasyonlu gizleme (yavaş)\n$('#element').hide('slow');\n\n// Animasyonlu gösterme (hızlı)\n$('#element').show('fast');\n\n// Özel süre ile toggle (milisaniye)\n$('#element').toggle(1000);\n\n// Callback fonksiyonu ile kullanım\n$('#element').hide(500, function() {\n    console.log('Element gizlendi!');\n});"
+        }
+    },
+    "fade_effects": {
+        "title": "Fade Efektleri",
+        "description": "jQuery'nin fadeIn(), fadeOut(), fadeToggle() ve fadeTo() metodları ile opaklık animasyonları",
+        "code": {
+            "language": "javascript",
+            "content": "// Elementi fade-in efekti ile göster\n$('#element').fadeIn();\n\n// Elementi fade-out efekti ile gizle\n$('#element').fadeOut();\n\n// Elementi fade efekti ile aç/kapa\n$('#element').fadeToggle();\n\n// Belirli bir opaklığa geçiş\n$('#element').fadeTo('slow', 0.5);\n\n// Hız parametresi ile kullanım\n$('#element').fadeIn('slow');\n$('#element').fadeOut('fast');\n\n// Özel süre ile kullanım (milisaniye)\n$('#element').fadeIn(1000);\n\n// Callback fonksiyonu ile kullanım\n$('#element').fadeOut(500, function() {\n    console.log('Element kayboldu!');\n});\n\n// Zincirleme kullanım\n$('#element')\n    .fadeOut(500)\n    .delay(1000)\n    .fadeIn(500);"
+        }
+    },
+    "slide_effects": {
+        "title": "Slide Efektleri",
+        "description": "jQuery'nin slideDown(), slideUp() ve slideToggle() metodları ile elementleri kaydırma animasyonları",
+        "code": {
+            "language": "javascript",
+            "content": "// Elementi aşağı doğru kaydırarak göster\n$('#element').slideDown();\n\n// Elementi yukarı doğru kaydırarak gizle\n$('#element').slideUp();\n\n// Elementi kaydırarak aç/kapa\n$('#element').slideToggle();\n\n// Hız parametresi ile kullanım\n$('#element').slideDown('slow');\n$('#element').slideUp('fast');\n\n// Özel süre ile kullanım (milisaniye)\n$('#element').slideDown(1000);\n\n// Callback fonksiyonu ile kullanım\n$('#element').slideUp(500, function() {\n    console.log('Element kaydırıldı!');\n});\n\n// Zincirleme kullanım\n$('#element')\n    .slideUp(500)\n    .delay(1000)\n    .slideDown(500);\n\n// Özel easing ile kullanım (jQuery UI gerektirir)\n$('#element').slideDown({\n    duration: 1000,\n    easing: 'easeOutBounce'\n});"
+        }
+    },
+    "animate_effects": {
+        "title": "Animate Metodu",
+        "description": "jQuery'nin animate() metodu ile özel animasyonlar oluşturma",
+        "code": {
+            "language": "javascript",
+            "content": "// Temel animate kullanımı\n$('#element').animate({\n    left: '250px',\n    opacity: '0.5',\n    width: '150px',\n    height: '150px'\n});\n\n// Süre ve easing ile kullanım\n$('#element').animate({\n    left: '+=50',\n    top: '-=50',\n    width: '*=1.5',  // Mevcut genişliği 1.5 ile çarp\n    height: '+=20'\n}, {\n    duration: 1000,\n    easing: 'swing',\n    complete: function() {\n        console.log('Animasyon tamamlandı!');\n    }\n});\n\n// Kademeli animasyon\n$('#element')\n    .animate({ width: '300px' }, 'slow')\n    .animate({ height: '200px' }, 'slow')\n    .animate({ opacity: 0.5 }, 'slow');\n\n// Queue false ile eşzamanlı animasyon\n$('#element').animate({\n    width: '300px'\n}, {\n    duration: 1000,\n    queue: false\n}).animate({\n    height: '200px'\n}, {\n    duration: 1000,\n    queue: false\n});\n\n// Özel easing fonksiyonu ile kullanım\n$('#element').animate({\n    left: '500px',\n    top: '200px'\n}, {\n    duration: 2000,\n    specialEasing: {\n        left: 'easeOutBounce',\n        top: 'easeOutElastic'\n    }\n});"
+        }
+    },
+    "queue_effects": {
+        "title": "Queue ve Dequeue",
+        "description": "jQuery'nin queue() ve dequeue() metodları ile animasyon kuyruğu yönetimi",
+        "code": {
+            "language": "javascript",
+            "content": "// Temel queue kullanımı\n$('#element')\n    .animate({ width: '300px' })\n    .queue(function() {\n        $(this).addClass('genisletildi');\n        $(this).dequeue(); // Kuyruktaki sonraki işlemi çalıştır\n    })\n    .animate({ height: '200px' });\n\n// Özel kuyruk oluşturma\n$('#element').queue('efektKuyrugu', function() {\n    $(this).addClass('efekt1');\n    $(this).dequeue('efektKuyrugu');\n}).queue('efektKuyrugu', function() {\n    $(this).addClass('efekt2');\n    $(this).dequeue('efektKuyrugu');\n});\n\n// Kuyruğu başlatma\n$('#element').dequeue('efektKuyrugu');\n\n// Kuyruk durumunu kontrol etme\n$('#element').queue(); // fx kuyruğunu göster\n$('#element').queue('efektKuyrugu'); // özel kuyruğu göster\n\n// Kuyruğu temizleme\n$('#element').clearQueue();\n\n// Animasyon ve kuyruk birlikte kullanımı\n$('#element')\n    .animate({ width: '+=50' })\n    .queue(function(next) {\n        $(this).css('background-color', 'red');\n        next(); // dequeue() ile aynı işlevi görür\n    })\n    .animate({ height: '+=50' })\n    .queue(function(next) {\n        $(this).css('border', '2px solid blue');\n        next();\n    });"
+        }
+    },
+    "fancybox_plugin": {
+        "title": "FancyBox Plugin",
+        "description": "jQuery FancyBox plugin'i ile gelişmiş resim galerisi ve modal pencere oluşturma",
+        "code": {
+            "language": "javascript",
+            "content": "// FancyBox kurulumu\n&lt;link href=\"https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css\" rel=\"stylesheet\"&gt;\n&lt;script src=\"https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js\"&gt;&lt;/script&gt;\n\n// Temel kullanım\n&lt;a href=\"buyuk-resim.jpg\" data-fancybox data-caption=\"Resim Başlığı\"&gt;\n    &lt;img src=\"kucuk-resim.jpg\" alt=\"Resim\"&gt;\n&lt;/a&gt;\n\n// Galeri grubu oluşturma\n&lt;a href=\"resim1.jpg\" data-fancybox=\"galeri\" data-caption=\"Resim 1\"&gt;\n    &lt;img src=\"thumbnail1.jpg\" alt=\"Resim 1\"&gt;\n&lt;/a&gt;\n&lt;a href=\"resim2.jpg\" data-fancybox=\"galeri\" data-caption=\"Resim 2\"&gt;\n    &lt;img src=\"thumbnail2.jpg\" alt=\"Resim 2\"&gt;\n&lt;/a&gt;\n\n// FancyBox ayarları\nFancybox.bind('[data-fancybox]', {\n    // Animasyon efekti\n    animated: true,\n    showClass: 'fancybox-fadeIn',\n    hideClass: 'fancybox-fadeOut',\n    \n    // Gezinme ayarları\n    infinite: true,\n    wheel: 'slide',\n    \n    // Görünüm ayarları\n    compact: false,\n    dragToClose: true,\n    \n    // Başlık ayarları\n    showCaption: true,\n    captionClass: 'fancybox-caption',\n    \n    // Araç çubuğu ayarları\n    Toolbar: {\n        display: {\n            left: ['infobar'],\n            middle: ['zoomIn', 'zoomOut', 'toggle1to1', 'rotateCCW', 'rotateCW'],\n            right: ['slideshow', 'thumbs', 'close']\n        }\n    }\n});"
+        }
+    },
+    "slick_plugin": {
+        "title": "Slick Carousel Plugin",
+        "description": "jQuery Slick plugin'i ile duyarlı ve özelleştirilebilir slayt gösterileri oluşturma",
+        "code": {
+            "language": "javascript",
+            "content": "// Slick Carousel kurulumu\n&lt;link href=\"https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css\" rel=\"stylesheet\"&gt;\n&lt;link href=\"https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css\" rel=\"stylesheet\"&gt;\n&lt;script src=\"https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js\"&gt;&lt;/script&gt;\n\n// Temel kullanım\n$('.slider').slick();\n\n// Özelleştirilmiş ayarlar\n$('.slider').slick({\n    dots: true,              // Nokta navigasyon\n    arrows: true,            // Ok navigasyon\n    infinite: true,          // Sonsuz döngü\n    speed: 500,             // Animasyon hızı\n    slidesToShow: 3,        // Görünür slayt sayısı\n    slidesToScroll: 1,      // Kaydırılacak slayt sayısı\n    autoplay: true,         // Otomatik oynatma\n    autoplaySpeed: 2000,    // Otomatik oynatma hızı\n    \n    // Duyarlı tasarım ayarları\n    responsive: [\n        {\n            breakpoint: 1024,\n            settings: {\n                slidesToShow: 2\n            }\n        },\n        {\n            breakpoint: 600,\n            settings: {\n                slidesToShow: 1\n            }\n        }\n    ],\n    \n    // Özel olaylar\n    beforeChange: function(event, slick, currentSlide, nextSlide) {\n        console.log('Slayt değişiyor:', currentSlide, ' -> ', nextSlide);\n    },\n    afterChange: function(event, slick, currentSlide) {\n        console.log('Aktif slayt:', currentSlide);\n    }\n});\n\n// Metod kullanımı\n$('.slider').slick('slickNext');      // Sonraki slayta geç\n$('.slider').slick('slickPrev');      // Önceki slayta geç\n$('.slider').slick('slickGoTo', 3);   // Belirli slayta git\n$('.slider').slick('slickPause');     // Otomatik oynatmayı durdur\n$('.slider').slick('slickPlay');      // Otomatik oynatmayı başlat"
+        }
+    },
+    "custom_plugin": {
+        "title": "Özel jQuery Plugin Oluşturma",
+        "description": "jQuery'ye kendi özel eklentilerinizi nasıl ekleyebileceğinizi öğrenin",
+        "code": {
+            "language": "javascript",
+            "content": "// Temel plugin yapısı\n$.fn.myPlugin = function(options) {\n    // Varsayılan ayarlar\n    const settings = $.extend({\n        color: 'blue',\n        backgroundColor: 'white',\n        fontSize: '16px'\n    }, options);\n    \n    // Zincirleme için this döndür\n    return this.each(function() {\n        const $this = $(this);\n        \n        // Plugin kodları\n        $this.css({\n            color: settings.color,\n            backgroundColor: settings.backgroundColor,\n            fontSize: settings.fontSize\n        });\n    });\n};\n\n// Statik metod ekleme\n$.myPluginMethod = function() {\n    console.log('Bu statik bir metoddur');\n};\n\n// Plugin kullanımı\n$('#element').myPlugin({\n    color: 'red',\n    fontSize: '20px'\n});\n\n// Zincirleme kullanım\n$('#element')\n    .myPlugin()\n    .addClass('active')\n    .show();\n\n// Statik metod kullanımı\n$.myPluginMethod();"
+        }
+    },
+    "validate_plugin": {
+        "title": "jQuery Validate Plugin",
+        "description": "jQuery Validate plugin'i ile form doğrulama işlemlerini kolayca gerçekleştirin",
+        "code": {
+            "language": "javascript",
+            "content": "// jQuery Validate kurulumu\n&lt;script src=\"https://code.jquery.com/jquery-3.7.1.min.js\"&gt;&lt;/script&gt;\n&lt;script src=\"https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js\"&gt;&lt;/script&gt;\n\n// Temel kullanım\n$('#myForm').validate({\n    rules: {\n        name: 'required',\n        email: {\n            required: true,\n            email: true\n        },\n        age: {\n            required: true,\n            number: true,\n            min: 18\n        },\n        password: {\n            required: true,\n            minlength: 6\n        },\n        confirmPassword: {\n            required: true,\n            equalTo: '#password'\n        }\n    },\n    messages: {\n        name: 'Lütfen adınızı girin',\n        email: {\n            required: 'Lütfen e-posta adresinizi girin',\n            email: 'Lütfen geçerli bir e-posta adresi girin'\n        },\n        age: {\n            required: 'Lütfen yaşınızı girin',\n            number: 'Lütfen geçerli bir yaş girin',\n            min: 'Yaşınız 18\\'den büyük olmalıdır'\n        },\n        password: {\n            required: 'Lütfen şifrenizi girin',\n            minlength: 'Şifreniz en az 6 karakter olmalıdır'\n        },\n        confirmPassword: {\n            required: 'Lütfen şifrenizi tekrar girin',\n            equalTo: 'Şifreler eşleşmiyor'\n        }\n    },\n    submitHandler: function(form) {\n        // Form geçerliyse çalışacak kod\n        console.log('Form başarıyla doğrulandı!');\n        form.submit();\n    },\n    invalidHandler: function(event, validator) {\n        // Form geçersizse çalışacak kod\n        console.log('Hata sayısı:', validator.numberOfInvalids());\n    },\n    highlight: function(element) {\n        // Hatalı alan vurgulanırken çalışacak kod\n        $(element).addClass('error');\n    },\n    unhighlight: function(element) {\n        // Hata düzeltildiğinde çalışacak kod\n        $(element).removeClass('error');\n    }\n});\n\n// Özel doğrulama metodu ekleme\n$.validator.addMethod('tcKimlik', function(value, element) {\n    return this.optional(element) || /^[0-9]{11}$/.test(value);\n}, 'Lütfen geçerli bir TC Kimlik numarası girin');\n\n// Özel doğrulama kuralı kullanımı\n$('#userForm').validate({\n    rules: {\n        tcno: {\n            required: true,\n            tcKimlik: true\n        }\n    }\n});"
+        }
+    },
+    "datepicker_plugin": {
+        "title": "jQuery UI Datepicker Plugin",
+        "description": "jQuery UI Datepicker plugin'i ile gelişmiş tarih seçici oluşturma",
+        "code": {
+            "language": "javascript",
+            "content": "// jQuery UI Datepicker kurulumu\n&lt;link href=\"https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css\" rel=\"stylesheet\"&gt;\n&lt;script src=\"https://code.jquery.com/ui/1.13.2/jquery-ui.min.js\"&gt;&lt;/script&gt;\n\n// Temel kullanım\n$('#tarih').datepicker();\n\n// Türkçe dil desteği ile kullanım\n$.datepicker.setDefaults($.datepicker.regional['tr']);\n\n// Özelleştirilmiş ayarlar\n$('#tarih').datepicker({\n    dateFormat: 'dd.mm.yy',\n    minDate: 0,  // Bugünden önceki tarihleri devre dışı bırak\n    maxDate: '+1M +10D',  // Maksimum 1 ay 10 gün sonrasına kadar\n    showOtherMonths: true,\n    selectOtherMonths: true,\n    showButtonPanel: true,\n    changeMonth: true,\n    changeYear: true,\n    yearRange: '2000:2030',\n    \n    // Olaylar\n    onSelect: function(dateText, inst) {\n        console.log('Seçilen tarih:', dateText);\n    },\n    beforeShowDay: function(date) {\n        // Hafta sonlarını devre dışı bırak\n        const day = date.getDay();\n        return [day !== 0 && day !== 6, ''];\n    }\n});"
+        }
+    },
+    "masonry_plugin": {
+        "title": "jQuery Masonry Plugin",
+        "description": "jQuery Masonry plugin'i ile dinamik grid (ızgara) düzeni oluşturma",
+        "code": {
+            "language": "javascript",
+            "content": "// Masonry kurulumu\n&lt;script src=\"https://unpkg.com/masonry-layout@4.2.2/dist/masonry.pkgd.min.js\"&gt;&lt;/script&gt;\n\n// Temel kullanım\n$('.grid').masonry({\n    itemSelector: '.grid-item',\n    columnWidth: 200,\n    gutter: 10\n});\n\n// imagesLoaded plugin'i ile kullanım\n$('.grid').imagesLoaded().progress(function() {\n    $('.grid').masonry('layout');\n});\n\n// Özelleştirilmiş ayarlar\n$('.grid').masonry({\n    itemSelector: '.grid-item',\n    columnWidth: '.grid-sizer',\n    percentPosition: true,\n    gutter: '.gutter-sizer',\n    horizontalOrder: true,\n    fitWidth: true,\n    originLeft: true,\n    originTop: true,\n    transitionDuration: '0.4s',\n    stagger: 30,\n    resize: true\n});\n\n// Yeni öğeler ekleme\n$('.grid').append(items)\n    .masonry('appended', items);\n\n// Öğeleri filtreleme\n$('.grid').masonry('remove', elements)\n    .masonry('layout');\n\n// Olayları dinleme\n$('.grid').on('layoutComplete', function(event, items) {\n    console.log(items.length + ' öğe yerleştirildi');\n});"
         }
     }
 } 
